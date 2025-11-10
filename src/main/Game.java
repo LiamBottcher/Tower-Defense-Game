@@ -3,61 +3,72 @@ package main;
 
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
+import Scenes.Menu;
+import Scenes.Playing;
+import Scenes.Settings;
+
+//overarching class with all classes in it, from what I can tell
+//i think also where everything is init but also not
 public class Game extends JFrame{
 
 	private GameScreen gameScreen;
-
-
-	
-	
+	private Render render;
+	private Menu menu;
+	private Playing playing;
+	private Settings settings;
 	
 	public Game() {
 		
-		//notes to take later
-		//render or repaint draws the current state of the game on the screen
-		//may be changed by players
-		//update()
-		//moves objects, checks for events, checks for collisions
-		//may not be changed by players!!
-		
-		
-		
-		
-		
-		
+		//1: pre settings
 		setSize(640, 640);
-		//if were using 32 pixel tiles, than tiles are 20x20 ss
-		//something about pack()? fuck that we don't need that
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		gameScreen = new GameScreen();
-		add(gameScreen);
+		setTitle("worlds best td game");
+		setResizable(false);
+
+		//2: make objects
+		makeObjects();
 		
-	
+		//3: post settings
+		add(gameScreen);
 		setVisible(true);
 		
-		//after everything is visible, then the game loop will start
+		//4: start the game
 		gameScreen.startGameLoop();
 
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Game game = new Game();
-		//game is made yay :| now I make a thread for the game loop
-		//FUCK the above statement Im done with this nanosecond bullshit
-		//I'm using javax timer its SOOOOmuch easier so fuck the while true loop
-		//fuck this twice I'm doing it in game constructor cuz thats not static
-			
-		
+	private void makeObjects() {
+		gameScreen = new GameScreen(this);
+		render = new Render(this);
+		menu = new Menu(this);
+		playing = new Playing(this);
+		settings = new Settings(this);
 		
 	}
+
+	public static void main(String[] args) {
+		//Constructs JPanel()
+		Game game = new Game();
+	}
+	
+	public Render getRender() {
+		return render;
+	}
+	
+	public Menu getMenu() {
+		return menu;
+	}
+	
+	public Playing getPlaying() {
+		return playing;
+	}
+	
+	public Settings getSettings() {
+		return settings;
+	}	
 	
 	
 
